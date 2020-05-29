@@ -3,11 +3,13 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const morgan = require('morgan');
 
-dotenv.config({ path: './config/config.env'})
+dotenv.config({ path: './config/config.env'});
+
+const transactions = require('./routes/transactions');
 
 const app = express();
 
-app.get('/', (req, res) => res.send('jade'));
+app.use('/api/v1/transactions', transactions); //even if just say '/', it will go to this route
 
 const PORT = process.env.PORT || 5000; //process.env is how we access any variables
 
