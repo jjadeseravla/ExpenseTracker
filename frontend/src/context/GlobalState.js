@@ -38,15 +38,23 @@ export const GlobalProvider = ({ children }) => {
       dispatch({
         type: 'TRANSACTION_ERROR',
         payload: err.response.data.error
-      })
+      });
     }
   }
 
-  function deleteTransaction(id) {
-    dispatch({
-      type: 'DELETE_TRANSACTION',
-      payload: id //payload is any data we are going to send to it, eg id
-    });
+  async function deleteTransaction(id) {
+    try {
+      await axios.delete(`/api/v1/transactions/${id}`);
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        payload: id //payload is any data we are going to send to it, eg id
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      });
+    }
   }
 
   function addTransaction(transaction) {
