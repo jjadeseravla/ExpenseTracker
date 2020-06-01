@@ -9,5 +9,6 @@ Expense Tracker for finances build with a React Hooks and Context API front end 
 
 
 ## To Run:
+To run the backend server and the frontend at the same time do:
 ```npm install```
-```npm run server```
+```npm run dev```
