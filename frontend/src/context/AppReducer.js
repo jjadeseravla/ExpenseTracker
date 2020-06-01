@@ -10,7 +10,7 @@ export default (state, action) => {
     return {
       ...state,
       //send all transactions down apart from the one that was deleted
-      transactions: state.transactions.filter(transaction => transaction.id !== action.payload)
+      transactions: state.transactions.filter(transaction => transaction._id !== action.payload)
     }
     case 'ADD_TRANSACTION':
     return {

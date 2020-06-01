@@ -9,7 +9,7 @@ function Transaction(props) {
   return (
     <li className={props.transaction.amount < 0 ? 'minus' : 'plus'}>
       {props.transaction.text} <span>{sign}£{Math.abs(props.transaction.amount)}</span><button
-      onClick={() => deleteTransaction(props.transaction.id)}  className="delete-btn">x</button>
+      onClick={() => deleteTransaction(props.transaction._id)}  className="delete-btn">x</button>
     </li>
   );
 }
