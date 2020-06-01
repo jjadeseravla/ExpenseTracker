@@ -25,7 +25,32 @@ exports.getTransactions = async (req, res, next) => {
 //@route POST/api/v1/transactions
 //@access public
 exports.addTransaction = async (req, res, next) => {
-  res.send('ADD transactions');
+  try {
+    const { text, amount } = req.body; //data thats send to create a transaction
+
+    const transaction = await TransactionModel.create(req.body);
+
+    return res.sendStatus(201).json({
+      success: true,
+      data: transaction
+    });
+    //res.send('ADD transactions');
+  } catch(err) {
+    if(err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(val => val.message);
+
+      res.status(400).json({
+        success: false,
+        error: messages
+      });
+    } else {
+      return res.sendStatus(500).json({
+        success: false,
+        error: 'Server Error'
+      });
+    }
+
+  }
 }
 
 // @desc Delete all transactions
