@@ -1,11 +1,18 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
+//if you make any http request from a component, need to use useEffect
+//getTransactions is an async call, so need to do it in useEffect hook
 import { GlobalContext } from '../context/GlobalState';
 import Transaction from './Transaction';
 
 function TransactionList() {
 
-  const { transactions } = useContext(GlobalContext); //bringing this in from our global state/context
+  const { transactions, getTransactions } = useContext(GlobalContext); //bringing this in from our global state/context
   //then below we are mapping through this and for each one rendering a transaction component and pass in a prop
+
+  useEffect(() => {
+    getTransactions();
+    //this may fire a warning in console
+  }, []); //put empty array here or will run an infinite loop
 
   return (
     <div>

@@ -3,6 +3,7 @@
 
 import React, { createContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
+import axios from 'axios';
 
 //initial useState
 const initialState = {
@@ -11,7 +12,9 @@ const initialState = {
     // { id: 2, text: 'Salary', amount: 300 },
     // { id: 3, text: 'Book', amount: -10 },
     // { id: 4, text: 'Camera', amount: 150 }
-  ]
+  ],
+  error: null,
+  loading: true
 }
 
 //create createContext
@@ -22,6 +25,23 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   //Actions (actions make a call to the reducer)
+  async function getTransactions() {
+    try {
+      //dont need localhost:5000 here as added the proxy already
+      const res = await axios.get('/api/v1/transactions');
+      //res.data gives entire tranactions object from backend, but only need data object inside that
+      dispatch({
+        type: 'GET_TRANSACTIONS',
+        payload: res.data.data
+      })
+    } catch(err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      })
+    }
+  }
+
   function deleteTransaction(id) {
     dispatch({
       type: 'DELETE_TRANSACTION',
@@ -36,10 +56,14 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+//to access any of these in the components
   return (<GlobalContext.Provider value={{ //to use state (from the reducer), need to pass it down to the provider:
     transactions: state.transactions,
+    error: state.error,
+    loading: state.loading,
+    getTransactions,
     deleteTransaction,
-    addTransaction
+    addTransaction,
   }}>
     {children}
   </GlobalContext.Provider>);

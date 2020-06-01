@@ -9,6 +9,7 @@ Expense Tracker for finances build with a React Hooks and Context API front end 
 
 
 ## To Run:
-To run the backend server and the frontend at the same time do:
+Navigate to port 3000 for front end and 5000 for backend and
+to run the backend server and the frontend at the same time do:
 ```npm install```
 ```npm run dev```
